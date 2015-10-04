@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+      <base href="#" />
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+      <meta http-equiv="Access-Control-Allow-Origin" content="*">
+      <meta name="format-detection" content="telephone=no">
+      <meta name="author" content="wampy-Manya.pe">
+      <meta name="description" content="">
+      <title>Pandero</title>
+
+      <meta property="og:title" content="Icraf " > 
+      <meta property="og:type" content="website" > 
+      <meta property="og:url" content="#" > 
+      <meta property="og:site_name" content="Icraf" > 
+      <meta property="og:image" content="" >
+      <meta property="og:description" content="" >
+
+      <!--Import materialize.css-->
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>     
+      <link type="text/css" rel="stylesheet" href="css/font-awesome.css"  media="screen,projection"/>
+      <link type="text/css" rel="stylesheet" href="css/sweet-alert.css"  media="screen,projection"/>     
+      <link type="text/css" rel="stylesheet" href="css/css.css"  media="screen,projection"/>
+      <link type="text/css" rel="stylesheet" href="bower_components/ui-select/select.css"  media="screen,projection"/>
+    <link rel="shortcut icon" href="icon/favicon.ico"  />
+
+
+      <!--Let browser know website is optimized for mobile-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+</head>
+<body ng-app="portalAsociadoApp">
+  <nav>
+    <div class="container_fluid">
+              <div class="row">
+                    <div class="col s6">
+                          <div class="pull-left">
+                                <img src="img/logo.png">
+                          </div>
+                    </div>
+                    <div class="col s6">
+                          <div class="pull-right">
+ 
+                                <div class="reloj_cont">
+                                  <i class="fa fa-clock-o"></i>
+                <span class="reloj"  id="vis">00:00</span>
+                                </div>
+                                <div class="user_cont">
+                                  
+                                      <a class='dropdown-button-responsive b-responsive hide-on-med-and-up' href='#' data-activates='dropdown1_responsive'>
+                                          <span></span>       
+                                      </a>
+                                      <!-- Dropdown Structure -->
+                                        <ul id='dropdown1_responsive' class='dropdown-content'>
+                                          <li><a href="#!"><i class="fa fa-user"></i> <span class="user">${sessionScope.userLogged.uaStFullName}</span>  </li></a>
+                                          <li><a ui-sref="changepassword"><i class="fa fa-unlock-alt"></i> Cambiar mi contraseña</a></li>
+                                          
+                      <c:if test="${sessionScope.userLogged.uaInHasFilledSurvey eq false}">
+                        <li><a href="#modalEncuesta" class="modal-trigger"><i class="fa fa-circle-o-notch"></i> Cerrar Sesión</a></li>                        
+                      </c:if>
+                      <c:if test="${sessionScope.userLogged.uaInHasFilledSurvey eq true}">
+                        <li><a href="j_spring_security_logout" ><i class="fa fa-circle-o-notch"></i> Cerrar Sesión</a></li>                                          
+                      </c:if>
+                                        </ul>
+                                      
+                                      <div class="welcome hide-on-small-only">
+                                          Bienvenido
+                                      </div>
+                                      <div class="user_into">
+                                        <a class='dropdown-button hide-on-small-only' href='#' data-activates='dropdown1'>
+                                              <span class="user" id="user"></span>
+                                                Mi nombre
+                                        </a>
+                                         <!-- Dropdown Structure -->
+                                          <ul id='dropdown1' class='dropdown-content'>
+                                            <li><a ui-sref="changepassword"><i class="fa fa-unlock-alt"></i> Cambiar mi contraseña</a></li>
+                        <c:if test="${sessionScope.userLogged.uaInHasFilledSurvey eq false and sessionScope.userLogged.uaIdUserType != 32}">
+                          <li><a href="#modalEncuesta" class="modal-trigger"><i class="fa fa-circle-o-notch"></i> Cerrar Sesión</a></li>                        
+                        </c:if>
+                        <c:if test="${sessionScope.userLogged.uaInHasFilledSurvey eq true or sessionScope.userLogged.uaIdUserType == 32}">
+                          <li><a href="j_spring_security_logout" ><i class="fa fa-circle-o-notch"></i> Cerrar Sesión</a></li>                                          
+                        </c:if>                                           
+                                            
+                                          </ul>
+                                      </div>
+                                </div>                                                              
+                                
+                          </div>
+                    </div>
+              </div>  
+    </div>          
+  </nav>
+  
+  
+  <div class="sub-menu">
+    <div class="container_fluid">
+        <div class="row">
+                    <div class="col s12 m9">
+                          <div class="pull-left">
+                                <ul id="opcionesMenues">
+                                    
+                                      <li><a id="myContracts" ui-sref="myContracts"><i class="fa fa-newspaper-o"></i> <span class="h_mobile">Mantenimiento de Obras</span></a></li>                                                                      
+                                      <li><a id="myMeeting" ui-sref="initMeetingResult"><i class="fa fa-users"></i> <span class="h_mobile">Mantenimiento de Promociones</a></span></li>
+                                      <li><a id="myData" ui-sref="initUpdateUserInfo"><i class="fa fa-wrench"></i> <span class="h_mobile">Matenimiento de Horarios</a></span></li>
+                                      
+                                      <li> <a ui-sref="initUserMaintenance"><i class="fa fa-users"></i><span class="h_mobile">Mantenimiento de Mensaje</span></a></li>
+                                </ul>
+                          </div>
+                    </div>
+                    <div class="col s12 m3 h_mobile">
+                          <div class="pull-right">
+                               <a href="#modal5" class="modal-trigger"><i class="fa fa-phone"></i>  Contáctanos </a>
+                          
+                               <a href="#modal3" class="modal-trigger"><i class="fa fa-question-circle"></i>  Ayuda </a>
+                             
+                          </div>
+                    </div>
+        </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+  <div class="container_fluid home">
+    <div >aqui meteras el codigo</div>
+  </div>
+
+<footer>
+  <div class="primero_f"> </div>
+</footer>
+
+
+
+<script type="text/javascript">
+var fullname='Mi nombre';
+console.log(fullname);
+
+var nombre=fullname.split(" ")[2];
+console.log(nombre);
+
+document.getElementById("user").innerHTML = nombre;
+
+
+function equalHeight(group) {
+    tallest = 0;
+    group.each(function() {
+      thisHeight = $(this).height();
+      if(thisHeight > tallest) {
+        tallest = thisHeight;
+      }
+    });
+    
+    group.height(tallest);    
+    
+}
+
+$(document).ready(function(){
+
+  $('#change_2').validate({
+    invalidHandler: function(){
+          $('input.error').closest('.input-field').find('label').addClass('rojo');
+          $('input.error').closest('.input-field').find('input').addClass('error');         
+        },
+        unhighlight: function(element){
+          $(element).closest('.input-field').find('label').removeClass('rojo');
+        $(element).closest('.input-field').find('input').removeClass('error');  
+        },
+        highlight: function(element){
+          $(element).closest('.input-field').find('label').addClass('rojo');
+        $(element).closest('.input-field').find('input').addClass('error');
+        }   
+  });
+  
+  $('#change').validate({
+    invalidHandler: function(){
+          $('input.error').closest('.input-field').find('label').addClass('rojo');
+          $('input.error').closest('.input-field').find('input').addClass('error');         
+        },
+        unhighlight: function(element){
+          $(element).closest('.input-field').find('label').removeClass('rojo');
+        $(element).closest('.input-field').find('input').removeClass('error');        
+        },
+        highlight: function(element){
+          $(element).closest('.input-field').find('label').addClass('rojo');
+        $(element).closest('.input-field').find('input').addClass('error');
+        }       
+  });
+  
+  
+  
+  $('select').material_select();    
+  // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+  $('.modal-trigger').leanModal();
+  $('.dropdown-button').dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        constrain_width: false,
+        hover: true, 
+        gutter: 0, 
+        belowOrigin: false 
+      }
+    );
+  $('.dropdown-button-responsive').dropdown({
+        inDuration: 300,
+        outDuration: 225,
+        constrain_width: false,
+        hover: false, 
+        gutter: 0, 
+        belowOrigin: false 
+      }
+    );
+  $('.tool').addClass('move_on'); 
+  
+  $('.hover_me').on('mouseenter',function(){
+      var $yo = $(this).closest('td').find('.tool');
+      $yo.removeClass('move_on');
+  });
+  $('.hover_me').on('mouseleave',function(){
+      var $yo = $(this).closest('td').find('.tool');
+      $yo.addClass('move_on');
+      
+  });
+  
+  $('.save').hide();
+  
+  $('.edit').on('click',function(e){
+    e.preventDefault;
+    $('#editable_1').find('input').prop('disabled',false);      
+    setTimeout(function(){
+      $('.edit').hide();
+      $('.save').show();        
+    },500); 
+  
+  });
+  
+  $('.save2').hide();
+  
+  $('.edit2').on('click',function(e){
+    e.preventDefault;
+    $('#editable_2').find('input').prop('disabled',false);      
+    setTimeout(function(){
+      $('.edit2').hide();
+      $('.save2').show();       
+    },500); 
+  });
+  
+  $('#two').find('i').on('click',function(){
+    $('#diaFin_root').addClass('picker--focused');
+    $('#diaFin_root').addClass('picker--opened');
+  });
+  
+  $('#one').find('i').on('click',function(){
+    $('#diaInicio_root').addClass('picker--focused');
+    $('#diaInicio_root').addClass('picker--opened');
+  });
+  
+  $('.collapsible').collapsible({
+    accordion : false 
+  });
+  
+  $('.tooltipped').tooltip({delay: 50});
+});
+</script>
+  
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#questionButton").on('click',function(){
+        $.ajax({
+          type:"POST",
+          url: "saveAnswersQuestions",
+          dataType: "json",
+          data: $('#formEncuesta').serialize(),
+            error: function(xhr, ajaxOptions, thrownError){
+              if(xhr.status==403){
+                  window.location.href = "accessDeniedPage";
+                }else{
+                  window.location.href = "errorpage";
+                }
+                 }        
+          }).done(function(data){
+            $('#modalEncuesta').closeModal();
+              swal({  title:'',
+                  text: data.responseMessage,   
+                  type: "success",   
+                  confirmButtonColor: "#DD6B55",   
+                  confirmButtonText: "Aceptar"
+              }, function(){   
+              window.location.href  = "j_spring_security_logout";
+              }
+              );    
+          });
+          
+    });
+    
+    setTimeout(function(){
+      $('.picker__weekday').eq(0).html('D');
+      $('.picker__weekday').eq(1).html('L');
+      $('.picker__weekday').eq(2).html('M');
+      $('.picker__weekday').eq(3).html('M');
+      $('.picker__weekday').eq(4).html('J');
+      $('.picker__weekday').eq(5).html('V');
+      $('.picker__weekday').eq(6).html('S');
+      
+    },2000);
+
+    currentDate = "${sessionScope.currenDate}";
+    lngCurrentDate = "${sessionScope.lngCurrenDate}";
+    $('.sub-menu ul li a').eq(0).addClass('active');
+    $('.collapsible li').eq(0).addClass('active');
+    $('.collapsible-header').eq(0).addClass('active');
+    $('.collapsible-body').eq(0).show();
+
+    setTimeout(function(){
+      $('#one .fa-calendar').on('click',function(){
+        $('#diaInicio_root').addClass('picker--focused');
+        $('#diaInicio_root').addClass('picker--opened');
+      });      
+    },1000); 
+    
+  });
+</script>
+
+<script type="text/javascript">
+
+
+var timesesion=5;
+
+var ore = 0,
+minuti = timesesion,
+secondi = 0;
+var vis = "";
+var stop = true;
+
+avvia();
+
+$(document).ready(function () {
+    $(document).click(function () {
+        
+      azzera();
+      
+    });
+  });
+
+function avvia() {
+if (stop == true) {
+    stop = false;
+    cronometro();
+}
+}
+
+function cronometro() {
+if (stop == false) {
+     secondi--;
+   
+    if (secondi < 1) {
+        secondi = 59;
+        minuti--;
+    }
+    if (minuti < 0) {
+
+
+    }else{
+      mostra(); 
+      
+    }
+    setTimeout("cronometro()", 1000);
+}
+}
+
+function mostra() {
+if (minuti < 10) vis = vis + "0";
+vis = vis + minuti + ":";
+if (secondi < 10) vis = vis + "0";
+vis = vis + secondi;
+document.getElementById("vis").innerHTML = vis;
+vis = "";
+}
+
+function ferma() {
+stop = true;
+}
+
+function azzera() {
+
+ore = secondi = 0;
+minuti=timesesion;//5
+vis = "";
+mostra();
+}
+</script>
+
+  
+</body>
+</html>
